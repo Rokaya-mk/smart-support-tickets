@@ -11,6 +11,7 @@ class Ticket extends Model
 
     protected $fillable = [
         'user_id',
+        'assigned_to',
         'subject',
         'status',
         'priority',
@@ -24,4 +25,9 @@ class Ticket extends Model
     public function agent(){
         return $this->belongsTo(User::class,'assigned_to');
     }
+
+    public function messages(){
+        return $this->hasMany(TicketMessage::class);
+    }
+    
 }
