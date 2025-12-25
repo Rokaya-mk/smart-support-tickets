@@ -34,7 +34,9 @@ class TicketForm
                             ->label('Assigned Agent')
                             ->relationship('agent', 'name')
                             ->searchable()
-                            ->nullable(),
+                            ->nullable()
+                             ->visible(fn () => auth()->user()->role === 'admin')
+                            ,
 
                         Select::make('status')
                             ->options([

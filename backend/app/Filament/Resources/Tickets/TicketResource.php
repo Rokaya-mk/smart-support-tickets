@@ -5,6 +5,7 @@ namespace App\Filament\Resources\Tickets;
 use App\Filament\Resources\Tickets\Pages\CreateTicket;
 use App\Filament\Resources\Tickets\Pages\EditTicket;
 use App\Filament\Resources\Tickets\Pages\ListTickets;
+use App\Filament\Resources\Tickets\RelationManagers\TicketActivitiesRelationManagerRelationManager;
 use App\Filament\Resources\Tickets\RelationManagers\TicketMessagesRelationManagerRelationManager;
 use App\Filament\Resources\Tickets\Schemas\TicketForm;
 use App\Filament\Resources\Tickets\Tables\TicketsTable;
@@ -23,6 +24,15 @@ class TicketResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+    protected static bool $shouldAuthorizeWithGate = true;
+    
+    // protected static ?string $navigationGroup = 'Support';
+
+    protected static ?string $navigationLabel = 'Tickets';
+
+    protected static ?int $navigationSort = 1;
+
+
     public static function form(Schema $schema): Schema
     {
         return TicketForm::configure($schema);
@@ -37,6 +47,7 @@ class TicketResource extends Resource
     {
         return [
         TicketMessagesRelationManagerRelationManager::class,
+        TicketActivitiesRelationManagerRelationManager::class,
         ];
     }
 

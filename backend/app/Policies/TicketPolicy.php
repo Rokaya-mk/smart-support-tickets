@@ -63,4 +63,14 @@ class TicketPolicy
     {
         return false;
     }
+
+    public function assign(User $user): bool
+    {
+        return $user->role === 'admin';
+    }
+
+    public function reply(User $user, Ticket $ticket): bool
+    {
+        return in_array($user->role, ['admin', 'agent']);
+    }
 }

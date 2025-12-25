@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Tickets\RelationManagers;
 
+use App\Services\TicketReplyService;
 use Filament\Actions\AttachAction;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\CreateAction;
@@ -56,7 +57,15 @@ class TicketMessagesRelationManagerRelationManager extends RelationManager
                 //
             ])
             ->headerActions([
-                CreateAction::make(),
+                CreateAction::make()
+                ->label('Reply')
+                 ->action(function (array $data) {
+                    app(TicketReplyService::class)
+                        ->reply($this->getOwnerRecord(), $data['message']);
+                })
+                ->disabled(fn () => $this->getOwnerRecord()->status === 'closed')
+                ->tooltip('This ticket is closed'),
+
                 AttachAction::make(),
             ])
             ->recordActions([
